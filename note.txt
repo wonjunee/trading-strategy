@@ -1,0 +1,105 @@
+3/31/2016
+Worked on backtesting.py. Trying to see some definite pattern using relationship between price and volume.
+When 
+df_close.loc[time,'SPY'] > rolling_mean.loc[time,'SPY'] + num*rolling_std.loc[time,'SPY'] \
+	and df_volume.loc[time,'SPY'] < rolling_mean_vol.loc[time,'SPY'] - num*rolling_std_vol.loc[time,'SPY']:
+
+stock mostly decreases day after.
+Only checked with SPY so need to check others as well.
+
+Todo: make a function that calcuate the probability of going down or up within five days.
+
+4/1/2016
+Created new file named finding_events.py copied from backtesting.py. This file will be an experiment to find the events of interest by looking at the average return and graphs.
+
+bollinger threshold = 1.5 works best
+
+	price low, volume high -> up
+	price between bollinger, volume high -> down
+
+above cases updated in casefile.txt
+
+when price is above a bollinger band, no prediction can be made. <- maybe I will come up with something else later. But for now.
+Based on the observations above, I created order data frame in backtesting_v1.py.
+	backtesting_v1.py: price low, volume high -> up
+
+Created backtesting_raw.py. This has the standard code that matches QSTK output example. Slight difference is due to absence of information of few symbols.
+
+4/4/2016
+Deleted "creating order" part. df_events is used for order array directly.
+Now the backtesting_raw.py is fine. Don't touch.
+	Sharpe Ratio of Fund:  0.781123472515
+	Sharpe Ratio of $SPX:  -0.123572242203
+	 
+	Total Return of Fund:  1.06400218
+	Total Return of $SPX:  0.813467427808
+	 
+	Standard Deviation of Fund:  0.00256859124919
+	Standard Deviation of $SPX:  0.021904485233
+	 
+	Average Daily Return of Fund:  0.000126390495562
+	Average Daily Return of $SPX:  -0.000170511513008
+
+created backtesting_v2.py. This has v1 strategy in a format of raw. No need to use backtesting_v1.py file anymore.
+Need to fix the cases when cash goes below zero.
+
+4/8/2016
+created backtesting_v3. This is for checking the backtesting result the raw code during 2014 and 2015. Nothing else is changed
+
+4/12/2016
+updated backtesting_v3. Purchase same amount of money (ex. $ 10,000 for every stock). And updated df_events part. No need for filling out df_events.
+
+Pulled the latest data from Yahoo finance.
+v3 now is set to 2008 to 2009. The result is correct. NEVER TOUCH IT!
+
+4/13/2016
+created backtesting_v4 from v3. New strategy. Sold immediately when price goes up or sold it 5 days later.
+	Start Date: 2014-01-01 00:00:00
+	End Date  : 2015-12-31 00:00:00
+	 
+	Sharpe Ratio of Fund:  -0.57462664632
+	Sharpe Ratio of $SPX:  0.656749730004
+	 
+	Total Return of Fund:  0.807264026139
+	Total Return of $SPX:  1.17147609153
+	 
+	Standard Deviation of Fund:  0.010286177607
+	Standard Deviation of $SPX:  0.00847626008288
+	 
+	Average Daily Return of Fund:  -0.000372339841432
+	Average Daily Return of $SPX:  0.000350674273982
+
+It is better than v3 but still needs to be improved.
+
+Created backtesting_v5 from v4. Includes strategy of shorting.
+
+Updated to all
+cash[ind_time] -= (df_orders[s_sym].loc[ind_time] - df_orders[s_sym].loc[ind_time_yest]) * df_close[s_sym].loc[ind_time_yest] 
+																													 ^
+																										this part changed from in_time
+Created backtesting_v6 from v5. 
+
+4/14/2016
+Updated backtesting_v6: switched short and long situations. -> stunning result very nice!
+
+	Start Date: 2015-01-01 00:00:00
+	End Date  : 2015-12-31 00:00:00
+	 
+	Sharpe Ratio of Fund:  1.1814019811
+	Sharpe Ratio of $SPX:  0.226140238351
+	 
+	Total Return of Fund:  1.23436397724
+	Total Return of $SPX:  1.02311964643
+	 
+	Standard Deviation of Fund:  0.0122947546563
+	Standard Deviation of $SPX:  0.00970132590794
+	 
+	Average Daily Return of Fund:  0.000914991987808
+	Average Daily Return of $SPX:  0.00013820019944
+
+Created backtesting_v6: create subplot for prices and volume
+	subplot :
+				f, axarr = plt.subplots(2, sharex=True)
+				axarr[0].plot(x, y)
+				axarr[0].set_title('Sharing X axis')
+				axarr[1].scatter(x, y)
