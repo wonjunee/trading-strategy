@@ -18,6 +18,28 @@ def main():
 	"""
 	This demo is for simulating the strategy
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	Variables
 	"""
 	dt_start = dt.datetime(2014,1,1)
