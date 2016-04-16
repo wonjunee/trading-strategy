@@ -1,0 +1,2 @@
+price low, volume high, up
+price between bollinger, volume high, down
