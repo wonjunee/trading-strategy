@@ -2,17 +2,25 @@ import pandas as pd
 import numpy as np
 import math
 import copy
-import QSTK.qstkutil.qsdateutil as du
 import datetime as dt
-import QSTK.qstkutil.DataAccess as da
-import QSTK.qstkutil.tsutil as tsu
-import QSTK.qstkstudy.EventProfiler as ep
+import getNYSEdays as days
+# import QSTK.qstkutil.qsdateutil as du
+# import QSTK.qstkutil.DataAccess as da
+# import QSTK.qstkutil.tsutil as tsu
+# import QSTK.qstkstudy.EventProfiler as ep
 import matplotlib.pyplot as plt
+
 
 def load_symlists(sym_list):
 	lines = open(sym_list)
 	ls_symbols = [i.strip() for i in lines]
 	return ls_symbols
+
+def get_data(ldt_timestamps, ls_symbols, ls_keys):
+	path = "c:/Python27/Lib/site-packages/QSTK/QSData/Yahoo"
+	for sym in ls_symbols:
+		with open(path + sym + ".csv","r") as F:
+			
 
 def main():
 	"""
@@ -30,8 +38,8 @@ def main():
 
 	print "Setting Up ..."
 	# Obtatining data from Yahoo
-	ldt_timestamps = du.getNYSEdays(dt_start, dt_end, dt.timedelta(hours=16))
-	dataobj = da.DataAccess('Yahoo')
+	# ldt_timestamps = du.getNYSEdays(dt_start, dt_end, dt.timedelta(hours=16))
+	ldt_timestamps = days.getNYSEdays(dt_start, dt_end, dt.timedelta(hours=16))
 	ls_symbols = load_symlists(sym_list)
 
 	ls_symbols.append(market_sym)

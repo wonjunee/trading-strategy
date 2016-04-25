@@ -97,9 +97,12 @@ Updated backtesting_v6: switched short and long situations. -> stunning result v
 	Average Daily Return of Fund:  0.000914991987808
 	Average Daily Return of $SPX:  0.00013820019944
 
-Created backtesting_v6: create subplot for prices and volume
+Created backtesting_v7: create subplot for prices and volume
 	subplot :
 				f, axarr = plt.subplots(2, sharex=True)
 				axarr[0].plot(x, y)
 				axarr[0].set_title('Sharing X axis')
 				axarr[1].scatter(x, y)
+
+4/15/2016
+Created backtesting_v8: updated strategy.
