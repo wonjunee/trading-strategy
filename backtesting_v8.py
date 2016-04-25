@@ -19,8 +19,8 @@ def main():
 	This demo is for simulating the strategy
 	Variables
 	"""
-	dt_start = dt.datetime(2008,1,1)
-	dt_end = dt.datetime(2009,12,31)
+	dt_start = dt.datetime(2013,1,1)
+	dt_end = dt.datetime(2015,12,31)
 
 	sym_list = 'sp5002012.txt'
 	market_sym = 'SPY'
@@ -89,12 +89,12 @@ def main():
 
 			if (bol_tod >= 3.0 and bol_yes <= 3.0 and bol_tod_mark <= -1.0):
 				for delay in range(delays):
-					df_events[s_sym].loc[ldt_timestamps[i+delay]] -= (10000.00/df_close[s_sym].loc[ldt_timestamps[i]])
+					df_events[s_sym].loc[ldt_timestamps[i+delay]] -= (30000.00/df_close[s_sym].loc[ldt_timestamps[i]])
 					if df_close[s_sym].loc[ldt_timestamps[i+delay]] < df_close[s_sym].loc[ldt_timestamps[i]]:
 						break
 			elif (bol_tod <= -3.0 and bol_yes >= -3.0 and bol_tod_mark >= 1.0):
 				for delay in range(delays):
-					df_events[s_sym].loc[ldt_timestamps[i+delay]] += (10000.00/df_close[s_sym].loc[ldt_timestamps[i]])
+					df_events[s_sym].loc[ldt_timestamps[i+delay]] += (30000.00/df_close[s_sym].loc[ldt_timestamps[i]])
 					if df_close[s_sym].loc[ldt_timestamps[i+delay]] > df_close[s_sym].loc[ldt_timestamps[i]]:
 						break
 			elif (bol_tod <= -2.0 and bol_yes >= -2.0 and bol_tod_mark >= 1.0):
@@ -231,10 +231,11 @@ def main():
 
 	# df_volume_norm = df_volume["SPY"]/df_volume["SPY"][ldt_timestamps[0]]
 
-	f, axarr = plt.subplots(2, sharex=True)
-	axarr[0].plot(cash.index, cash, 'r', ts_market.index, ts_market, 'b', ts_market.index, rolling_std["SPY"]/2, 'g')
+	f, axarr = plt.subplots(3, sharex=True)
+	axarr[0].plot(cash.index, cash, 'r', ts_market.index, ts_market, 'b')
 	axarr[0].set_title('Testing')
 	axarr[1].plot(ts_market.index, df_volume["SPY"], 'b', ts_market.index, rolling_mean_vol["SPY"]+rolling_std_vol["SPY"], 'b--', ts_market.index, rolling_mean_vol["SPY"]-rolling_std_vol["SPY"], 'b--')
+	axarr[2].plot(ts_market.index, rolling_std["SPY"], 'g')
 	plt.show()
 
 if __name__ == "__main__":
