@@ -2,33 +2,25 @@ import pandas as pd
 import numpy as np
 import math
 import copy
+import QSTK.qstkutil.qsdateutil as du
 import datetime as dt
-import getNYSEdays as days
-# import QSTK.qstkutil.qsdateutil as du
-# import QSTK.qstkutil.DataAccess as da
-# import QSTK.qstkutil.tsutil as tsu
-# import QSTK.qstkstudy.EventProfiler as ep
+import QSTK.qstkutil.DataAccess as da
+import QSTK.qstkutil.tsutil as tsu
+import QSTK.qstkstudy.EventProfiler as ep
 import matplotlib.pyplot as plt
-
 
 def load_symlists(sym_list):
 	lines = open(sym_list)
 	ls_symbols = [i.strip() for i in lines]
 	return ls_symbols
 
-def get_data(ldt_timestamps, ls_symbols, ls_keys):
-	path = "c:/Python27/Lib/site-packages/QSTK/QSData/Yahoo"
-	for sym in ls_symbols:
-		with open(path + sym + ".csv","r") as F:
-			
-
 def main():
 	"""
-	This demo is for simulating the strategy``
+	This demo is for simulating the strategy
 	Variables
 	"""
-	dt_start = dt.datetime(2014,1,1)
-	dt_end = dt.datetime(2014,12,31)
+	dt_start = dt.datetime(2008,1,1)
+	dt_end = dt.datetime(2009,12,31)
 
 	sym_list = 'sp5002012.txt'
 	market_sym = 'SPY'
@@ -38,10 +30,9 @@ def main():
 
 	print "Setting Up ..."
 	# Obtatining data from Yahoo
-	# ldt_timestamps = du.getNYSEdays(dt_start, dt_end, dt.timedelta(hours=16))
-	ldt_timestamps = days.getNYSEdays(dt_start, dt_end, dt.timedelta(hours=16))
+	ldt_timestamps = du.getNYSEdays(dt_start, dt_end, dt.timedelta(hours=16))
+	dataobj = da.DataAccess('Yahoo')
 	ls_symbols = load_symlists(sym_list)
-
 	ls_symbols.append(market_sym)
 	"""
 	key values. Creating a dictionary.
@@ -61,7 +52,6 @@ def main():
 	"""
 	df_close = d_data['close']
 	df_volume = d_data['volume']
-
 
 	print "Finding Events ..."
 	''' 
@@ -121,7 +111,7 @@ def main():
 
 
 	print "Starting Simulation ..."
-	
+
 	# Find symbols that satisfy the event condition.
 	ls_symbols_red = []
 
@@ -176,7 +166,7 @@ def main():
 	# Save to csv files
 	cash.to_csv("c:/cash.csv",sep=",",mode="w")
 	value.to_csv("c:/portfolio.csv",sep=",",mode="w")
-	
+
 	print "Updating Total..."
 	for i in range(len(ldt_timestamps)):
 	    sym_sum = 0
@@ -238,7 +228,7 @@ def main():
 	# axarr[2].plot(ts_market.index, rolling_std["SPY"], 'b')
 	# plt.show()
 
-	
+
 	# df_volume_norm = df_volume["SPY"]/df_volume["SPY"][ldt_timestamps[0]]
 
 	f, axarr = plt.subplots(2, sharex=True)
