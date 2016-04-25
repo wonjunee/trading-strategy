@@ -94,8 +94,8 @@ def main():
 						break
 			elif (bol_tod <= -2.0 and bol_yes >= -2.0 and bol_tod_mark >= 1.0):
 				for delay in range(delays):
-					df_events[s_sym].loc[ldt_timestamps[i+delay]] -= (10000.00/df_close[s_sym].loc[ldt_timestamps[i]])
-					if df_close[s_sym].loc[ldt_timestamps[i+delay]] < df_close[s_sym].loc[ldt_timestamps[i]]:
+					df_events[s_sym].loc[ldt_timestamps[i+delay]] += (10000.00/df_close[s_sym].loc[ldt_timestamps[i]])
+					if df_close[s_sym].loc[ldt_timestamps[i+delay]] > df_close[s_sym].loc[ldt_timestamps[i]]:
 						break
 			
 
