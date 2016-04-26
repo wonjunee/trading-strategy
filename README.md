@@ -1,1 +1,1 @@
-# Personal projecting for practicing using pandas dataframe, numpy, and matplotlib.
+# Personal project to practice using pandas dataframe, numpy, and matplotlib.
