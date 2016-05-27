@@ -1,3 +1,6 @@
+# he following example takes a long position in SPY at the start of the week, 
+# and closes out the position at 3:30pm on the last day of the week:
+
 def initialize(context):
     context.spy = sid(8554)
 
